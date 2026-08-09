@@ -34,7 +34,7 @@ export function CardImage({ product }: { product: Products }) {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full">View Product</Button>
+        <Button className="w-full">Add to Cart</Button>
       </CardFooter>
     </Card>
   );
