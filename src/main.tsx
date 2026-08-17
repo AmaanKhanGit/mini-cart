@@ -4,7 +4,8 @@ import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.tsx";
-import Cart from "./pages/Cart.tsx";
+import CartPage from "./pages/CartPage.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // & for automatic theme change
 
@@ -24,13 +25,16 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/cart", element: <Cart /> },
+      { path: "/cart", element: <CartPage /> },
     ],
   },
 ]);
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );
