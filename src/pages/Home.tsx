@@ -1,24 +1,32 @@
 import { SkeletonCard } from "@/components/layout/SkeletonCard";
 import { CardImage } from "@/components/ui/CardImage";
+import { useAppSelector } from "@/hooks/useStore";
 import { getAllProducts } from "@/services/getAllProducts";
 import type { Products } from "@/types/products";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const Home = () => {
-  const [products, setProducts] = useState<Products[]>([]);
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useQuery<Products[], Error>({
+    queryFn: getAllProducts,
+    queryKey: ["products"],
+  });
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const products = await getAllProducts();
-      setProducts(products);
-    };
+  if (error) {
+    console.log(error);
+    return <p>Error ....</p>;
+  }
 
-    fetchProducts();
-  }, []);
+  const cartitem = useAppSelector((state) => state.cart);
+
+  console.log(cartitem.items);
 
   return (
     <div className="flex w-full flex-wrap justify-center gap-3 py-5">
-      {products.length === 0 ? (
+      {isLoading ? (
         <div className="grid w-[80%] grid-cols-[repeat(auto-fit,minmax(250px,1fr))] place-items-center gap-4">
           {[...Array(20)].map((_, idx) => (
             <SkeletonCard key={idx} />
@@ -26,7 +34,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="grid w-[80%] grid-cols-[repeat(auto-fit,minmax(250px,1fr))] place-items-center gap-4">
-          {products.map((product) => (
+          {products?.map((product) => (
             <CardImage key={product.id} product={product} />
           ))}
         </div>

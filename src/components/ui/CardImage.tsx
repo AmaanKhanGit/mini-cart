@@ -8,9 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useAppDispatch } from "@/hooks/useStore";
+import { addToCart } from "@/store/cartSlice";
 import type { Products } from "@/types/products";
 
 export function CardImage({ product }: { product: Products }) {
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (): void => {
+    console.log("Added to cart");
+    dispatch(addToCart(product));
+  };
+
   return (
     <Card className="relative mx-auto w-full max-w-sm pt-0">
       <img
@@ -34,7 +43,7 @@ export function CardImage({ product }: { product: Products }) {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button variant="default" className="w-full">
+        <Button onClick={handleAddToCart} variant="default" className="w-full">
           Add to Cart
         </Button>
       </CardFooter>
