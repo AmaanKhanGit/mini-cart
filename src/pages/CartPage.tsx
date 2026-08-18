@@ -1,44 +1,17 @@
-// pages/cart-page.tsx
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CartItem from "@/components/ui/CartItem";
 import type { CartItemType } from "@/types/cart";
 import CartSumary from "@/components/ui/CartSumary";
 import { useAppSelector } from "@/hooks/useStore";
-
-// const mockCartItems: CartItemType[] = [
-//   {
-//     id: "1",
-//     name: "Wireless Headphones",
-//     description: "Over-ear, noise cancelling",
-//     price: 89.99,
-//     quantity: 5,
-//     image: "https://via.placeholder.com/100",
-//   },
-//   {
-//     id: "2",
-//     name: "Canvas Backpack",
-//     description: "Water-resistant, 20L",
-//     price: 54.5,
-//     quantity: 2,
-//     image: "https://via.placeholder.com/100",
-//   },
-//   {
-//     id: "3",
-//     name: "Ceramic Mug",
-//     description: "350ml, matte finish",
-//     price: 12.0,
-//     quantity: 3,
-//     image: "https://via.placeholder.com/100",
-//   },
-// ];
+import { useNavigate } from "react-router-dom";
 
 function getSubtotal(items: CartItemType[]): number {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
 export default function CartPage() {
-  // const items = mockCartItems;
+  const navigate = useNavigate();
 
   const { items } = useAppSelector((state) => state.cart);
   const subtotal = getSubtotal(items);
@@ -55,7 +28,7 @@ export default function CartPage() {
         <div className="flex flex-col items-center justify-center gap-3 py-20 text-center">
           <ShoppingBag className="text-muted-foreground h-10 w-10" />
           <p className="text-muted-foreground">Your cart is empty.</p>
-          <Button>Continue Shopping</Button>
+          <Button onClick={() => navigate("/")}>Continue Shopping</Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">

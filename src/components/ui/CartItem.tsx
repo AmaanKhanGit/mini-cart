@@ -2,8 +2,16 @@ import { Card, CardContent } from "./card";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import type { CartItemType } from "@/types/cart";
 import { Button } from "./button";
+import { useAppDispatch } from "@/hooks/useStore";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeFromCart,
+} from "@/store/cartSlice";
+import { toast } from "./toast";
 
 const CartItem = ({ item }: { item: CartItemType }) => {
+  const dispatch = useAppDispatch();
   return (
     <Card key={item.id}>
       <CardContent className="flex items-center gap-4 p-4">
@@ -22,11 +30,21 @@ const CartItem = ({ item }: { item: CartItemType }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" className="h-7 w-7">
+          <Button
+            onClick={() => dispatch(decreaseQuantity(item.id))}
+            variant="outline"
+            size="icon"
+            className="h-7 w-7"
+          >
             <Minus className="h-3 w-3" />
           </Button>
           <span className="w-6 text-center text-sm">{item.quantity}</span>
-          <Button variant="outline" size="icon" className="h-7 w-7">
+          <Button
+            onClick={() => dispatch(increaseQuantity(item.id))}
+            variant="outline"
+            size="icon"
+            className="h-7 w-7"
+          >
             <Plus className="h-3 w-3" />
           </Button>
         </div>
@@ -36,6 +54,13 @@ const CartItem = ({ item }: { item: CartItemType }) => {
             ${(item.price * item.quantity).toFixed(2)}
           </span>
           <Button
+            onClick={() => {
+              dispatch(removeFromCart(item.id));
+              toast.add({
+                type: "error",
+                description: "Removed from cart",
+              });
+            }}
             variant="ghost"
             size="icon"
             className="text-muted-foreground hover:text-destructive h-7 w-7"

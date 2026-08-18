@@ -11,13 +11,24 @@ import {
 import { useAppDispatch } from "@/hooks/useStore";
 import { addToCart } from "@/store/cartSlice";
 import type { Products } from "@/types/products";
+import { toast } from "./toast";
+import { useState } from "react";
 
 export function CardImage({ product }: { product: Products }) {
   const dispatch = useAppDispatch();
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = (): void => {
-    console.log("Added to cart");
+    setIsAdding(true);
     dispatch(addToCart(product));
+
+    setTimeout(() => {
+      setIsAdding(false);
+      toast.add({
+        type: "success",
+        description: "Added to cart!",
+      });
+    }, 3000);
   };
 
   return (
@@ -43,8 +54,13 @@ export function CardImage({ product }: { product: Products }) {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button onClick={handleAddToCart} variant="default" className="w-full">
-          Add to Cart
+        <Button
+          disabled={isAdding}
+          onClick={handleAddToCart}
+          variant="default"
+          className="w-full disabled:cursor-none"
+        >
+          {isAdding ? "Adding..." : "Add to cart"}
         </Button>
       </CardFooter>
     </Card>
