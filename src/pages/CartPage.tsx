@@ -18,8 +18,6 @@ export default function CartPage() {
   const shipping = subtotal > 0 ? 5.0 : 0;
   const total = subtotal + shipping;
 
-  console.log(items);
-
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
       <h1 className="text-foreground mb-6 text-2xl font-semibold">Your Cart</h1>

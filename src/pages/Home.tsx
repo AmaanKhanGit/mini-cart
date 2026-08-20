@@ -22,8 +22,6 @@ const Home = () => {
 
   const cartitem = useAppSelector((state) => state.cart);
 
-  console.log(cartitem.items);
-
   return (
     <div className="flex w-full flex-wrap justify-center gap-3 py-5">
       {isLoading ? (
