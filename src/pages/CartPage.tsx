@@ -14,9 +14,9 @@ export default function CartPage() {
   const navigate = useNavigate();
 
   const { items } = useAppSelector((state) => state.cart);
-  const subtotal = getSubtotal(items);
-  const shipping = subtotal > 0 ? 5.0 : 0;
-  const total = subtotal + shipping;
+  const subtotal: number = getSubtotal(items);
+  const shipping: number = subtotal > 0 ? 5.0 : 0;
+  const total: number = subtotal + shipping;
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
